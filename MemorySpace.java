@@ -63,7 +63,8 @@ public class MemorySpace {
 		Node same=null;
 		while(temp!=null)
 		{
-			if(temp.block.length >= length) {
+			if(temp.block.length >= length) 
+			{
 				same = temp;
 				break;
 			}
@@ -119,7 +120,29 @@ public class MemorySpace {
 	 * Normally, called by malloc, when it fails to find a memory block of the requested size.
 	 * In this implementation Malloc does not call defrag.
 	 */
-	public void defrag() {
+	public void defrag() 
+	{
+		if(freeList.getFirst()==null);
+		else
+		{
+		freeList.sort();
+		Node temp=freeList.getFirst();
+		while(temp.next!=null)
+		{
+			if(temp.block.baseAddress+temp.block.length==temp.next.block.baseAddress)
+			{
+				temp.block.length +=temp.next.block.length;
+				freeList.remove(temp.next);
+			}
+			else
+			{
+				temp=temp.next;
+			}
+
+		}
+
+		}
+
 		/// TODO: Implement defrag test
 		//// Write your code here
 	}
