@@ -219,10 +219,45 @@ public class LinkedList {
 	 */
 	public void remove(Node node) 
 	{
-		Node temp=first;
-		int x=indexOf(node.block);
-
-		this.remove(x);
+		Node current = first;
+		if(node == null) {
+			throw new NullPointerException();
+		}
+		if(first == null) return;
+		if(size == 1 && node.equals(first)) {
+			first = null;
+			last = null;
+			size = 0;
+			return;
+		}
+		if(node.equals(first)) {
+			first = first.next;
+			size --;
+			if(size == 1) {
+				last = first;
+			}
+			return;
+		}
+		while(current.next != null) {
+			if(current.next.equals(node) && node.equals(last)) {
+				current.next = null;
+				size --;
+				last = current;
+				if(size == 1) {
+					last = first;
+				}
+				return;
+			}
+			if(current.next.equals(node)) {
+				current.next = current.next.next;
+				size --;
+				if(size == 1) {
+					last = first;
+				}
+				return;
+			}
+			current = current.next;
+		}
 		//// Write your code here
 	}
 
@@ -235,25 +270,20 @@ public class LinkedList {
 	 */
 	public void remove(int index) 
 	{
-		if (index >= size) 
-		{
+		if (index < 0 || index > size) {
 			throw new IllegalArgumentException(
 					"index must be between 0 and size");
 		}
-
-		Node temp=first;
-
-		for(int i=0;i<index-1;i++)
-		{
-			temp=temp.next;
+		if(size == 0) return;
+		if(size == 1) {
+			first = null;
+			last = null;
+			size = 0;
+			return;
 		}
-        
-		if(size-1==index) last=temp;
-		else if(index==0) first=first.next;
-		 else temp.next=temp.next.next;
-		size--;
-		//// Write your code here
+		remove(getBlock(index));
 	}
+
 
 	/**
 	 * Removes from this list the node pointing to the given memory block.
@@ -264,7 +294,47 @@ public class LinkedList {
 	 */
 	public void remove(MemoryBlock block) 
 	{
-		remove(indexOf(block));
+		if(block == null) {
+			throw new IllegalArgumentException("index must be between 0 and size");
+		}
+		if(indexOf(block) == -1) 
+			throw new IllegalArgumentException("index must be between 0 and size");
+		Node current = first;
+		if(first == null) return;
+		if(size == 1 && block.equals(first.block)) {
+			first = null;
+			last = null;
+			size = 0;
+			return;
+		}
+		if(block.equals(first.block)) {
+			first = first.next;
+			size --;
+			if(size == 1) {
+				last = first;
+			}
+			return;
+		}
+		for(int i = 0 ; i < size ; i ++) {
+			if(current.next.block.equals(block) && block.equals(last.block)) {
+				current.next = null;
+				size --;
+				last = current;
+				if(size == 1) {
+					last = first;
+				}
+				return;
+			}
+			if(current.next.block.equals(block)) {
+				current.next = current.next.next;
+				size --;
+				if(size == 1) {
+					last = first;
+				}
+				return;
+			}
+			current = current.next;
+		}
 		//// Write your code here
 	}	
 

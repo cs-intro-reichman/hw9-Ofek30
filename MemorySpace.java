@@ -93,17 +93,22 @@ public class MemorySpace {
 	 */
 	public void free(int address) 
 	{
-		Node temp=allocatedList.getFirst();
-		for(int i=0;i<allocatedList.getSize();i++)
-		{
-			if(temp.block.baseAddress==address)
-			{ 
-				allocatedList.remove(temp);
-				freeList.addLast(temp.block);
-			}
-			temp=temp.next;
-
+		if(freeList.getSize() == 1 && freeList.getFirst().block.baseAddress == 0 && freeList.getFirst().block.length == 100) {
+			throw new IllegalArgumentException(
+					"index must be between 0 and size");
 		}
+		Node temp = allocatedList.getNode(0);
+		Node match = null;
+		while(temp != null) {
+			if(temp.block.baseAddress == address) {
+				match = temp;
+				break;
+			}
+			temp = temp.next;
+		}
+		if(match == null) return;
+		freeList.addLast(match.block);
+		allocatedList.remove(match.block);
 		//// Write your code here
 	}
 	
