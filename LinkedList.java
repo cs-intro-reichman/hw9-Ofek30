@@ -102,10 +102,12 @@ public class LinkedList {
 		if(index==0) 
 		{
 		this.addFirst(block);
+		return;
 		}
 		else if(index==size)
 		{
 			this.addLast(block);
+			return;
 		}
 
 		Node temp = first;
@@ -286,5 +288,19 @@ public class LinkedList {
         	temp = temp.next; 
 		}
     	return result;
+	}
+
+	public void sort() {
+		for (int i = 0; i < size - 1; i++) {
+			for (int j = 0; j < size - i - 1; j++) {
+				Node current = getNode(j);
+				Node next = current.next;
+				if (current.block.baseAddress > next.block.baseAddress) {
+					MemoryBlock temp = current.block;
+					current.block = next.block;
+					next.block = temp;
+				}
+			}
+		}
 	}
 }
