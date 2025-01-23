@@ -202,10 +202,10 @@ public class LinkedList {
 	public int indexOf(MemoryBlock block) 
 	{
 		Node temp=first;
-		if(first==null) return -1;
 		for(int i=0;i<size;i++)
 		{
 			if(block.equals(temp.block)) return i;
+			temp=temp.next;
 		}
 		//// Replace the following statement with your code
 		return -1;
